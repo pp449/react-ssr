@@ -1,3 +1,5 @@
+import { isBrowser } from './utils';
+
 export const BASE_URL = 'https://api.themoviedb.org/3/movie';
 
 export const TMDB_THUMBNAIL_URL = 'https://media.themoviedb.org/t/p/w440_and_h660_face/';
@@ -11,10 +13,16 @@ export const TMDB_MOVIE_LISTS = {
 };
 export const TMDB_MOVIE_DETAIL_URL = 'https://api.themoviedb.org/3/movie/';
 
-export const FETCH_OPTIONS = {
-	method: 'GET',
-	headers: {
-		accept: 'application/json',
-		Authorization: 'Bearer ' + process.env.ACCESS_TOKEN,
-	},
+export const getFetchOptions = () => {
+	const token = isBrowser() ? localStorage.getItem('TMDBToken') : process.env.ACCESS_TOKEN;
+
+	return {
+		method: 'GET',
+		headers: {
+			accept: 'application/json',
+			Authorization: 'Bearer ' + token,
+		},
+	};
 };
+
+export const FETCH_OPTIONS = getFetchOptions();
