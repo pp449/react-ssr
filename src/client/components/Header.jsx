@@ -1,8 +1,6 @@
 import React from 'react';
 
-const Header = ({ movies }) => {
-	const firstMovie = movies[0];
-
+const Header = ({ firstMovie }) => {
 	return (
 		<header>
 			<div
