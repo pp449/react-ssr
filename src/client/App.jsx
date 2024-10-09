@@ -1,13 +1,29 @@
-import React from 'react';
-import Home from './components/Home';
+import React, { useEffect, useState } from 'react';
+import MoviePage from './components/MoviePage';
 import Footer from './components/Footer';
-import Header from './components/Header';
 
-function App({ movies }) {
+function App() {
+	const [popularMovies, setPopularMovies] = useState(window.__INITIAL_DATA__.movies || []);
+
+	const loadMovies = async () => {
+		const data = await fetchPopularMovies();
+
+		setPopularMovies(data.results);
+	};
+
+	useEffect(() => {
+		if (window.__INITIAL_DATA__.movies) {
+			setPopularMovies(window.__INITIAL_DATA__.movies);
+		} else {
+			loadMovies();
+		}
+
+		delete window.__INITIAL_DATA__.movies;
+	}, []);
+
 	return (
 		<div>
-			<Header movies={movies} />
-			<Home movies={movies} />
+			<MoviePage movies={popularMovies} />
 			<Footer />
 		</div>
 	);
